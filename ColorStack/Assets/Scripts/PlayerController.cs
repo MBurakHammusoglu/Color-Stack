@@ -12,6 +12,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float sideLerpSpeed;
     Rigidbody myRB;
+
+    
+    [SerializeField] Transform stackPosition;
+    Transform parentPickup;
+    
     void Start()
     {
         myRB = GetComponent<Rigidbody>();
@@ -57,4 +62,48 @@ public class PlayerController : MonoBehaviour
                 new Vector3(hit.point.x, transform.position.y, transform.position.z), sideLerpSpeed * Time.deltaTime);
         }
     }
+   /* private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("çalýþtý");
+        if (other.tag == "Pickup" )
+        {
+            pickUpRb.isKinematic = true;
+            Transform pickupTransform = other.transform;
+            pickupTransform.parent = stackPosition;
+            Vector3 newPosition = stackPosition.childCount * Vector3.up;
+            pickupTransform.localPosition = newPosition;
+            if(pickupTransform.parent.tag == "Pickup")
+            {
+                Debug.Log("pickuplar çarpýþýyor");
+            }
+            
+        }
+    } */
+     private void OnTriggerEnter(Collider other)
+     {
+
+         if(other.tag == "Pickup")
+         {
+
+             Transform otherTransform = other.transform;
+             Rigidbody otherRB = other.transform.GetComponent<Rigidbody>();
+             otherRB.isKinematic = true;
+             other.enabled = false;
+             if (parentPickup == null)
+             {
+
+                 parentPickup = otherTransform;
+                 parentPickup.position = stackPosition.position;
+                parentPickup.parent = stackPosition;
+             }
+             else
+             {
+
+                 parentPickup.position += Vector3.up * (otherTransform.localScale.y);
+                 otherTransform.position = stackPosition.position;
+                 otherTransform.parent = parentPickup;
+             }
+         }
+     }
+    
 }

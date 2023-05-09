@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] bool isPlaying;
     [SerializeField] float forwardSpeed;
+
+    [SerializeField] float sideLerpSpeed;
     Rigidbody myRB;
     void Start()
     {
@@ -23,7 +25,15 @@ public class PlayerController : MonoBehaviour
         if (isPlaying)
         {
             MoveForward();
-        }   
+        }
+        if (Input.GetMouseButton(0))
+        {
+            if (isPlaying == false)
+            {
+                isPlaying = true;
+            }
+            MoveSideWays();
+        }
     }
     void SetColor(Color colorIn)
     {
@@ -36,5 +46,15 @@ public class PlayerController : MonoBehaviour
     void MoveForward()
     {
         myRB.velocity = Vector3.forward * forwardSpeed;
+    }
+    void MoveSideWays()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if(Physics.Raycast(ray,out hit, 100))
+        {
+            transform.position = Vector3.Lerp(transform.position,
+                new Vector3(hit.point.x, transform.position.y, transform.position.z), sideLerpSpeed * Time.deltaTime);
+        }
     }
 }

@@ -62,27 +62,12 @@ public class PlayerController : MonoBehaviour
                 new Vector3(hit.point.x, transform.position.y, transform.position.z), sideLerpSpeed * Time.deltaTime);
         }
     }
-   /* private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("çalýþtý");
-        if (other.tag == "Pickup" )
-        {
-            pickUpRb.isKinematic = true;
-            Transform pickupTransform = other.transform;
-            pickupTransform.parent = stackPosition;
-            Vector3 newPosition = stackPosition.childCount * Vector3.up;
-            pickupTransform.localPosition = newPosition;
-            if(pickupTransform.parent.tag == "Pickup")
-            {
-                Debug.Log("pickuplar çarpýþýyor");
-            }
-            
-        }
-    } */
+ 
+
      private void OnTriggerEnter(Collider other)
      {
 
-         if(other.tag == "Pickup")
+         if(other.tag == "Pickup" && )
          {
 
              Transform otherTransform = other.transform;
